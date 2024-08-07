@@ -1,44 +1,36 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-##
+---
 name: Java CI with Maven
-
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
-
+    branches:
+      - main
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ '17' ]
-
+        java:
+          - "17"
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK ${{matrix.java}}
         uses: actions/setup-java@v4
         with:
           java-version: ${{matrix.java}}
-          distribution: 'adopt'
+          distribution: adopt
           cache: maven
       - name: Build with Maven Wrapper
         run: ./mvnw -B package
-      - name: "Run analysis"
-      - uses: ossf/scorecard-action@62b2cac7ed8198b15735ed49ab1e5cf35480ba46 # v2.4.0
+      - name: Run analysis
+      - uses: ossf/scorecard-action@62b2cac7ed8198b15735ed49ab1e5cf35480ba46
         with:
           results_file: results.sarif
           results_format: sarif
-         # Scorecard team runs a weekly scan of public GitHub repos,
-         # see https://github.com/ossf/scorecard#public-data.
-         # Setting `publish_results: true` helps us scale by leveraging your workflow to
-         # extract the results instead of relying on our own infrastructure to run scans.
           publish_results: true
-     # Commenting out will disable upload of results to your repo's Code Scanning dashboard
-      - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@afb54ba388a7dca6ecae48f608c4ff05ff4cc77a # v3.25.15
+      - name: Upload to code-scanning
+        uses: github/codeql-action/upload-sarif@afb54ba388a7dca6ecae48f608c4ff05ff4cc77a
         with:
-         sarif_file: results.sarif          
+          sarif_file: results.sarif
