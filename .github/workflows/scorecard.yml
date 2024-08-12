@@ -16,9 +16,9 @@ on:
 
 # Declare default permissions as read only.
 permissions:
-#read-all
-  security-events: write
-  id-token: write
+  read-all
+  # security-events: write
+  # id-token: write
 
 jobs:
   analysis:
