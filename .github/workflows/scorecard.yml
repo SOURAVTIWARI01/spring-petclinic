@@ -8,7 +8,7 @@ on:
   # schedule:
   #   - cron: '39 9 * * 3'
   push:   
-  workflow_dispatch : 
+
 
 # Declare default permissions as read only.
 permissions:
